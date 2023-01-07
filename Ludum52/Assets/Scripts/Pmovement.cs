@@ -17,7 +17,6 @@ public class Pmovement : MonoBehaviour
     bool jump = false;
 
     float horMove = 0f;
-
     Rigidbody2D rb;
     private void Start()
     {
@@ -32,6 +31,7 @@ public class Pmovement : MonoBehaviour
             airSpeed = 0.5f;
 
         horMove = Input.GetAxis("Horizontal") * Speed * airSpeed;
+        
 
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
             rb.AddForce(Vector2.up * JumpPower, ForceMode2D.Impulse);
@@ -39,6 +39,14 @@ public class Pmovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (horMove > 0 && !IsFacingRight || horMove < 0 && IsFacingRight)
+        {
+            IsFacingRight = !IsFacingRight;
+            Vector3 localScale = transform.localScale;
+            localScale.x = localScale.x*-1;
+            transform.localScale = localScale;
+        }
         transform.Translate(horMove * Vector2.right);
+        
     }
 }
