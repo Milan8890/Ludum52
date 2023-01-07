@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 4505401}
   - component: {fileID: 4505400}
   - component: {fileID: 4505399}
+  - component: {fileID: 4505403}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -238,12 +239,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4505398}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.12, y: -0.2, z: -42.974426}
+  m_LocalPosition: {x: -2.38, y: 2.35, z: -42.974426}
   m_LocalScale: {x: 4, y: 4, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4505403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4505398}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6cf017392d342e458247b85249e0d37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Hp: 100
+  enemyObject: {fileID: 4505398}
 --- !u!1 &399529821
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,6 +609,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1171170238}
   - component: {fileID: 1171170240}
+  - component: {fileID: 1171170239}
   m_Layer: 0
   m_Name: Attackcollider
   m_TagString: Untagged
@@ -615,6 +631,18 @@ Transform:
   m_Father: {fileID: 518831902}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1171170239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171170237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25fa99dd4bad19242ae78b93c9f8a979, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!65 &1171170240
 BoxCollider:
   m_ObjectHideFlags: 0
