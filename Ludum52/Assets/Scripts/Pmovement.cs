@@ -4,45 +4,41 @@ using UnityEngine;
 
 public class Pmovement : MonoBehaviour
 {
-    private float Speed = 1f;
-    private float JumpPower = 10f;
+    private float Speed = 0.2f;
+    private float JumpPower = 7f;
+    private float airSpeed = 1f;
+
     public bool IsGrounded = true;
     private bool IsFacingRight = true;
 
-    public Rigidbody2D rb;
     public Transform GroundCheck;
-    // Start is called before the first frame update
-    void Start()
-    {
 
+
+    bool jump = false;
+
+    float horMove = 0f;
+
+    Rigidbody2D rb;
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.D) && IsGrounded)
-        {
-            IsFacingRight = true;
-            transform.Translate(Vector2.right * Speed * Time.deltaTime);
-        }
-        if (Input.GetKey(KeyCode.A) && IsGrounded)
-        {
-            IsFacingRight = false;
-            rb.velocity = new Vector2(Speed * -1, rb.velocity.y);
-        }
-        if (Input.GetKey(KeyCode.Space) && IsGrounded)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, JumpPower);
-        }
+        if (IsGrounded)
+            airSpeed = 1f;
+        else
+            airSpeed = 0.5f;
+
+        horMove = Input.GetAxis("Horizontal") * Speed * airSpeed;
+
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
+            rb.AddForce(Vector2.up * JumpPower, ForceMode2D.Impulse);
     }
-    private void OnCollisionEnter2D(Collision2D col)
+
+    private void FixedUpdate()
     {
-        if (col.gameObject.tag == "Ground")
-            IsGrounded = true;
-    }
-    private void OnCollisionExit2D(Collision2D col)
-    {
-        if (col.gameObject.tag == "Ground")
-            IsGrounded = false;
+        transform.Translate(horMove * Vector2.right);
     }
 }
