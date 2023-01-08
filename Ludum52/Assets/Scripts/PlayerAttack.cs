@@ -9,9 +9,9 @@ public class PlayerAttack : MonoBehaviour
     private bool canAttack = true;
     private float attackDelay = 0.5f;
     private float attackDuration = 0.5f;
+    private float angle;
     public float damageCollDistance = 0.34f;
     public bool melee = true;
-    private float angle;
     [SerializeField] int damage = 50;
     public GameObject player;
     public GameObject bullet;
@@ -33,9 +33,6 @@ public class PlayerAttack : MonoBehaviour
         mousePos.y = mousePos.y - objectPos.y;
 
         angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-        if (!player.gameObject.GetComponent<Pmovement>().IsFacingRight)
-            angle = angle - 180f;
-
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
 
