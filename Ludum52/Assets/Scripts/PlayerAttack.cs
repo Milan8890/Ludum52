@@ -11,6 +11,7 @@ public class PlayerAttack : MonoBehaviour
     private float attackDuration = 0.5f;
     public float damageCollDistance = 0.34f;
     public bool melee = true;
+    private float angle;
     [SerializeField] int damage = 50;
     public GameObject player;
     public GameObject bullet;
@@ -31,12 +32,11 @@ public class PlayerAttack : MonoBehaviour
         mousePos.x = mousePos.x - objectPos.x;
         mousePos.y = mousePos.y - objectPos.y;
 
-        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
-        
-        if(player.gameObject.GetComponent<Pmovement>().IsFacingRight)
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-        else
-            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle-180));
+        angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+        if (!player.gameObject.GetComponent<Pmovement>().IsFacingRight)
+            angle = angle - 180f;
+
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
 
         if (Input.GetKey(KeyCode.Mouse0) && canAttack)
@@ -79,8 +79,11 @@ public class PlayerAttack : MonoBehaviour
     IEnumerator Rattack()
     {
         damageCooldownUI.color = new Color(1, 0, 0);
+
         Instantiate(bullet, barrelEnd.position, barrelEnd.rotation);
+
         yield return new WaitForSeconds(attackDelay);
+
         canAttack = true;
         damageCooldownUI.color = new Color(0, 1, 0);
     }
