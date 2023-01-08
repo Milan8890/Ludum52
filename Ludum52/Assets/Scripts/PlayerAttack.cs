@@ -13,12 +13,14 @@ public class PlayerAttack : MonoBehaviour
     public bool melee = true;
     [SerializeField] int damage = 50;
     public GameObject player;
+    public GameObject bullet;
+    public Transform barrelEnd;
 
     public Image damageCooldownUI;
     private void Start()
     {
         //fix?
-        GetComponent<BoxCollider2D>().offset = new Vector2(damageCollDistance, 0);
+        //GetComponent<BoxCollider2D>().offset = new Vector2(damageCollDistance, 0);
     }
     void Update()
     {
@@ -43,14 +45,15 @@ public class PlayerAttack : MonoBehaviour
                 StartCoroutine(Mattack());
             else
             {
-                //ranged attack;
+                //ranged attack
+                StartCoroutine(Rattack());
             }
         }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (attacking)
+        if (attacking && melee)
         {
             if (collision.gameObject.tag=="Enemy")
                 collision.gameObject.GetComponent<Enemy>().getDamage(damage);
@@ -70,6 +73,15 @@ public class PlayerAttack : MonoBehaviour
 
         yield return new WaitForSeconds(attackDelay);
         
+        canAttack = true;
+        damageCooldownUI.color = new Color(0, 1, 0);
+    }
+    IEnumerator Rattack()
+    {
+        canAttack = false;
+        damageCooldownUI.color = new Color(1, 0, 0);
+        Instantiate(bullet, barrelEnd.position, barrelEnd.rotation);
+        yield return new WaitForSeconds(attackDelay);
         canAttack = true;
         damageCooldownUI.color = new Color(0, 1, 0);
     }
