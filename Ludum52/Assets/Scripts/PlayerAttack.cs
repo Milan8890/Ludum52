@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class meleeAttack : MonoBehaviour
+public class PlayerAttack : MonoBehaviour
 {
     private bool attacking = false;
     private bool canAttack = true;
     private float attackDelay = 0.5f;
     private float attackDuration = 0.5f;
     public float damageCollDistance = 0.34f;
+    public bool melee = true;
     [SerializeField] int damage = 50;
     public GameObject player;
 
@@ -38,7 +39,12 @@ public class meleeAttack : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
         {
-            StartCoroutine(attack());
+            if (melee)
+                StartCoroutine(Mattack());
+            else
+            {
+                //ranged attack;
+            }
         }
     }
 
@@ -52,7 +58,7 @@ public class meleeAttack : MonoBehaviour
             attacking = false;
         }
     }
-    IEnumerator attack()
+    IEnumerator Mattack()
     {
         damageCooldownUI.color = new Color(1, 0, 0);
 
