@@ -54,7 +54,10 @@ public class PlayerAttack : MonoBehaviour
         if (attacking && melee)
         {
             if (collision.gameObject.tag=="Enemy")
-                collision.gameObject.GetComponent<Enemy>().getDamage(damage);
+            {
+                collision.GetComponent<Enemy>().getDamage(damage);
+                collision.GetComponent<Enemy>().applyKnockback(transform.rotation);
+            }
 
             attacking = false;
         }

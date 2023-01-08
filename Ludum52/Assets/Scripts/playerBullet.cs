@@ -5,6 +5,7 @@ using UnityEngine;
 public class playerBullet : MonoBehaviour
 {
     public float speed = 10f;
+    public float bulletLife = 2.0f;
     public int damage = 20;
 
     public GameObject player;
@@ -20,7 +21,13 @@ public class playerBullet : MonoBehaviour
         if(collision.tag.Equals("Enemy"))
         {
             collision.GetComponent<Enemy>().getDamage(damage);
+            collision.GetComponent<Enemy>().applyKnockback(transform.rotation);
         }
+    }
+    private void Update()
+    {
+        if ((bulletLife -= Time.deltaTime) <= 0.0f)
+            Destroy(gameObject);
     }
     private void FixedUpdate()
     {  
