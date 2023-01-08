@@ -39,13 +39,14 @@ public class PlayerAttack : MonoBehaviour
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle-180));
 
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
+        if (Input.GetKey(KeyCode.Mouse0) && canAttack)
         {
+            canAttack = false;
+
             if (melee)
                 StartCoroutine(Mattack());
             else
             {
-                //ranged attack
                 StartCoroutine(Rattack());
             }
         }
@@ -65,7 +66,6 @@ public class PlayerAttack : MonoBehaviour
     {
         damageCooldownUI.color = new Color(1, 0, 0);
 
-        canAttack = false;
         attacking = true;
 
         yield return new WaitForSeconds(attackDuration);
@@ -78,7 +78,6 @@ public class PlayerAttack : MonoBehaviour
     }
     IEnumerator Rattack()
     {
-        canAttack = false;
         damageCooldownUI.color = new Color(1, 0, 0);
         Instantiate(bullet, barrelEnd.position, barrelEnd.rotation);
         yield return new WaitForSeconds(attackDelay);
