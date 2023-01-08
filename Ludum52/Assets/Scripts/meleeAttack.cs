@@ -9,14 +9,34 @@ public class meleeAttack : MonoBehaviour
     private bool canAttack = true;
     private float attackDelay = 0.5f;
     private float attackDuration = 0.5f;
+    public float damageCollDistance = 0.34f;
     [SerializeField] int damage = 50;
-
+    public GameObject player;
 
     public Image damageCooldownUI;
-
+    private void Start()
+    {
+        //fix?
+        GetComponent<BoxCollider2D>().offset = new Vector2(damageCollDistance, 0);
+    }
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
+        Vector3 mousePos = Input.mousePosition;
+
+        Vector3 objectPos = Camera.main.WorldToScreenPoint(transform.position);
+
+        mousePos.x = mousePos.x - objectPos.x;
+        mousePos.y = mousePos.y - objectPos.y;
+
+        float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+        
+        if(player.gameObject.GetComponent<Pmovement>().IsFacingRight)
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+        else
+            transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle-180));
+
+
+        if (Input.GetKeyDown(KeyCode.Mouse0) && canAttack)
         {
             StartCoroutine(attack());
         }

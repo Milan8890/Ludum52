@@ -9,7 +9,7 @@ public class Pmovement : MonoBehaviour
     private float airSpeed = 1f;
 
     public bool IsGrounded = true;
-    private bool IsFacingRight = true;
+    public bool IsFacingRight = true;
 
     public Transform GroundCheck;
 
