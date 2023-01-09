@@ -14,8 +14,6 @@ public class Pmovement : MonoBehaviour
     public Transform GroundCheck;
     private Transform playerSprite;
 
-    bool jump = false;
-
     float horMove = 0f;
     Rigidbody2D rb;
     private void Start()
