@@ -12,14 +12,14 @@ public class Pmovement : MonoBehaviour
     public bool IsFacingRight = true;
 
     public Transform GroundCheck;
-    private Transform playerSprite;
+    //[SerializeField] Transform playerSprite;
 
     float horMove = 0f;
     Rigidbody2D rb;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        playerSprite = transform.Find("playerSprite");
+        //playerSprite = transform.Find("playerSprite");
     }
 
     void Update()
@@ -34,16 +34,20 @@ public class Pmovement : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
             rb.AddForce(Vector2.up * JumpPower, ForceMode2D.Impulse);
+            
     }
 
     private void FixedUpdate()
     {
+        if(!IsFacingRight)
+            GetComponent<SpriteRenderer>().flipX = true;
+        else
+            GetComponent<SpriteRenderer>().flipX = false;
+
         if (horMove > 0 && !IsFacingRight || horMove < 0 && IsFacingRight)
-        {
             IsFacingRight = !IsFacingRight;
-            playerSprite.localScale = new Vector3(playerSprite.localScale.x*-1, playerSprite.localScale.y, playerSprite.localScale.z);
-        }
+
+
         transform.Translate(horMove * Vector2.right);
-        
     }
 }
