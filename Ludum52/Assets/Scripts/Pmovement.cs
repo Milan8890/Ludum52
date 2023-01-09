@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Pmovement : MonoBehaviour
 {
-    private float Speed = 0.2f;
+    private float Speed = 0.05f;
     private float JumpPower = 7f;
     private float airSpeed = 1f;
 
@@ -12,14 +12,12 @@ public class Pmovement : MonoBehaviour
     public bool IsFacingRight = true;
 
     public Transform GroundCheck;
-    //[SerializeField] Transform playerSprite;
 
     float horMove = 0f;
     Rigidbody2D rb;
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        //playerSprite = transform.Find("playerSprite");
     }
 
     void Update()
@@ -27,7 +25,7 @@ public class Pmovement : MonoBehaviour
         if (IsGrounded)
             airSpeed = 1f;
         else
-            airSpeed = 0.5f;
+            airSpeed = 0.8f;
 
         horMove = Input.GetAxis("Horizontal") * Speed * airSpeed;
         
