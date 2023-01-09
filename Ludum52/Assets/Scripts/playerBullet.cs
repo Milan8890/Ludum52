@@ -21,11 +21,8 @@ public class playerBullet : MonoBehaviour
         if(collision.tag.Equals("Enemy"))
         {
             collision.GetComponent<Enemy>().getDamage(damage);
-<<<<<<< Updated upstream
             collision.GetComponent<Enemy>().applyKnockback(transform.rotation);
-=======
-            Destroy()
->>>>>>> Stashed changes
+            Destroy(gameObject);
         }
     }
     private void Update()
