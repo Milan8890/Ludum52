@@ -37,8 +37,12 @@ public class Pmovement : MonoBehaviour
         //horMove = Input.GetAxisRaw("Horizontal") * Speed * airSpeed; nem tudom eldönteni melyik a jobb
         
 
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
+        if (Input.GetKey(KeyCode.Space) && IsGrounded)
+        {
+            IsGrounded = false;
             rb.AddForce(Vector2.up * JumpPower, ForceMode2D.Impulse);
+        }
+            
     }
 
     private void FixedUpdate()
@@ -51,5 +55,17 @@ public class Pmovement : MonoBehaviour
 
 
         transform.Translate(horMove * Vector2.right);
+    }
+
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Ground")
+            IsGrounded = true;
+    }
+
+    private void OnCollisionExit2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Ground")
+            IsGrounded = false;
     }
 }
