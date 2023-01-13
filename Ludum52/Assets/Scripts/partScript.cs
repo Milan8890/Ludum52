@@ -8,7 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 [System.Serializable]  
 public class part
 {
-    // 1=head, 2=body, 3=arm, 4=leg
+    // 1=head, 2=body, 3=arm, 4=utilarm, 5=leg
     public int type;
     public int typeSquared; // nem jó név de a type-on belüli type pl lánctalp vagy sima láb
 
@@ -86,51 +86,7 @@ public class partScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         {
             if (Vector2.Distance(GetComponent<RectTransform>().position, Lock.GetComponent<RectTransform>().position) <= 160f)
             {
-                if(part.type < 3 && Lock == locks[part.type - 1])
-                {
-                    if (Lock.transform.childCount == 0)
-                    {
-                        transform.parent = Lock.transform;
-                        GetComponent<RectTransform>().position = Lock.GetComponent<RectTransform>().position;
-                        transform.localScale = new Vector3(1, 1, 1);
-                    }
-                    else
-                    {
-                        Transform equiped = Lock.transform.GetChild(0);
-                        equiped.parent = unusedPartsPanel.transform;
-
-                        equiped.localScale = new Vector3(1, 1, 1);
-                        equiped.SetAsFirstSibling();
-
-                        transform.parent = Lock.transform;
-                        GetComponent<RectTransform>().position = Lock.GetComponent<RectTransform>().position;
-                        transform.localScale = new Vector3(1, 1, 1);
-                    }
-                    newPlaceSet = true;
-                }
-                else if(part.type == 3 && (Lock == locks[2] || Lock == locks[3]))
-                {
-                    if (Lock.transform.childCount == 0)
-                    {
-                        transform.parent = Lock.transform;
-                        GetComponent<RectTransform>().position = Lock.GetComponent<RectTransform>().position;
-                        transform.localScale = new Vector3(1, 1, 1);
-                    }
-                    else
-                    {
-                        Transform equiped = Lock.transform.GetChild(0);
-                        equiped.parent = unusedPartsPanel.transform;
-
-                        equiped.localScale = new Vector3(1, 1, 1);
-                        equiped.SetAsFirstSibling();
-
-                        transform.parent = Lock.transform;
-                        GetComponent<RectTransform>().position = Lock.GetComponent<RectTransform>().position;
-                        transform.localScale = new Vector3(1, 1, 1);
-                    }
-                    newPlaceSet = true;
-                }
-                else if (part.type == 4 && Lock == locks[4])
+                if(Lock == locks[part.type - 1])
                 {
                     if (Lock.transform.childCount == 0)
                     {

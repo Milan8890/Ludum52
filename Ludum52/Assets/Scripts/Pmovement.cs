@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class Pmovement : MonoBehaviour
 {
-    private float Speed = 0.1f;
-    private float JumpPower = 7f;
-    private float airSpeed = 1f;
+    public float Speed = 0.1f;
+    public float JumpPower = 7f;
+    public float airSpeed = 1f;
+
+    public float maxHp = 0;
+    public float hp = 0;
 
     public bool IsGrounded = true;
     public bool IsFacingRight = true;

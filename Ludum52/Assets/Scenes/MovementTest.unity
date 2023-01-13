@@ -1133,6 +1133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eafa3da5cd2b7cc43a9800ed851fc189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  locks: []
 --- !u!70 &518831904
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1458,6 +1459,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6121868213037375493, guid: 0e0f88c1c89761e4f8bdf64740b4c4f7, type: 3}
+      propertyPath: m_Color.b
+      value: 0.89227057
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121868213037375493, guid: 0e0f88c1c89761e4f8bdf64740b4c4f7, type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6121868213037375493, guid: 0e0f88c1c89761e4f8bdf64740b4c4f7, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6121868213037375495, guid: 0e0f88c1c89761e4f8bdf64740b4c4f7, type: 3}
       propertyPath: m_Name
       value: background (5)
@@ -1491,7 +1504,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   part:
-    type: 0
+    type: 5
     typeSquared: 0
     sprite: {fileID: 0}
     rarity: 0
