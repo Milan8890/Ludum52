@@ -31,9 +31,7 @@ public class partChange : MonoBehaviour
                 foreach (GameObject Lock in locks)
                     lockedParts.Add(Lock.transform.GetChild(0).gameObject);
 
-                //playernek a cucait megváltoztatni
-
-                GetComponent<Pmovement>().maxHp += lockedParts[0].GetComponent<partScript>().part.hp + lockedParts[1].GetComponent<partScript>().part.hp
+                GetComponent<Pmovement>().change(lockedParts);
             }
 
 

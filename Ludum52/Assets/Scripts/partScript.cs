@@ -29,6 +29,9 @@ public class part
     //ranged
     public float fireRate;
     Sprite bulettSprite;
+    public float range;
+    public float spread;
+
 
     //leg
     public bool stopIm;

@@ -71,4 +71,9 @@ public class Pmovement : MonoBehaviour
         if (col.gameObject.tag == "Ground")
             IsGrounded = false;
     }
+
+    public void change(List<GameObject> lockedParts)
+    {
+        //itt változzon
+    }
 }
