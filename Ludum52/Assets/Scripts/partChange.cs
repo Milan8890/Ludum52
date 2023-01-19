@@ -9,8 +9,8 @@ public class partChange : MonoBehaviour
     GameObject partPanel;
     GameObject unusedPartsPanel;
 
-    public GameObject[] locks;
-    List<GameObject> lockedParts;
+    GameObject[] locks = new GameObject[5];
+    public List<GameObject> lockedParts;
 
     private void Start()
     {
@@ -26,16 +26,14 @@ public class partChange : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Tab))
         {
-            if(partPanel.activeSelf)
+            partPanel.SetActive(!partPanel.activeSelf);
+            if (!partPanel.activeSelf)
             {
                 foreach (GameObject Lock in locks)
                     lockedParts.Add(Lock.transform.GetChild(0).gameObject);
 
                 GetComponent<Pmovement>().change(lockedParts);
             }
-
-
-            partPanel.SetActive(!partPanel.activeSelf);
         }
             
 

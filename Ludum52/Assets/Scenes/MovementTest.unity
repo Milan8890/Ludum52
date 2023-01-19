@@ -695,6 +695,8 @@ MonoBehaviour:
     damage: 0
     reach: 0
     fireRate: 0
+    range: 0
+    spread: 0
     stopIm: 0
     speed: 0
   locks: []
@@ -833,6 +835,8 @@ MonoBehaviour:
     damage: 0
     reach: 0
     fireRate: 0
+    range: 0
+    spread: 0
     stopIm: 0
     speed: 0
   locks: []
@@ -1081,6 +1085,8 @@ MonoBehaviour:
     damage: 0
     reach: 0
     fireRate: 0
+    range: 0
+    spread: 0
     stopIm: 0
     speed: 0
   locks: []
@@ -1133,7 +1139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eafa3da5cd2b7cc43a9800ed851fc189, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  locks: []
+  lockedParts: []
 --- !u!70 &518831904
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1183,6 +1189,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d22692757ea804c449d5385ddc8ee19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Speed: 0.1
+  JumpPower: 7
+  airSpeed: 1
+  maxHp: 0
+  hp: 0
   IsGrounded: 1
   IsFacingRight: 1
   GroundCheck: {fileID: 0}
@@ -1515,6 +1526,8 @@ MonoBehaviour:
     damage: 0
     reach: 0
     fireRate: 0
+    range: 0
+    spread: 0
     stopIm: 0
     speed: 0
   locks: []
@@ -1802,6 +1815,8 @@ MonoBehaviour:
     damage: 0
     reach: 0
     fireRate: 0
+    range: 0
+    spread: 0
     stopIm: 0
     speed: 0
   locks: []
@@ -2332,6 +2347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25fa99dd4bad19242ae78b93c9f8a979, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponType: 2
+  range: 0.5
   damageCollDistance: 0.34
   melee: 0
   damage: 50
@@ -2606,6 +2623,8 @@ MonoBehaviour:
     damage: 0
     reach: 0
     fireRate: 0
+    range: 0
+    spread: 0
     stopIm: 0
     speed: 0
   locks: []
@@ -2755,6 +2774,8 @@ MonoBehaviour:
     damage: 0
     reach: 0
     fireRate: 0
+    range: 0
+    spread: 0
     stopIm: 0
     speed: 0
   locks: []
@@ -3537,6 +3558,8 @@ MonoBehaviour:
     damage: 0
     reach: 0
     fireRate: 0
+    range: 0
+    spread: 0
     stopIm: 0
     speed: 0
   locks: []
