@@ -7,9 +7,6 @@ public class Pmovement : MonoBehaviour
     public float Speed = 0.15f;
     public float JumpPower = 13f;
 
-    public float maxHp = 0;
-    public float hp = 0;
-
     public bool IsGrounded = true;
     public bool IsFacingRight = true;
     public bool canMove = true;
@@ -70,10 +67,5 @@ public class Pmovement : MonoBehaviour
     {
         if (col.gameObject.tag == "Ground")
             IsGrounded = false;
-    }
-
-    public void change(List<GameObject> lockedParts)
-    {
-        //itt változzon
     }
 }

@@ -9,7 +9,7 @@ public class partChange : MonoBehaviour
     GameObject partPanel;
     GameObject unusedPartsPanel;
 
-    GameObject[] locks = new GameObject[5];
+    public GameObject[] locks;
     public List<GameObject> lockedParts;
 
     private void Start()
@@ -17,7 +17,6 @@ public class partChange : MonoBehaviour
         unusedPartsPanel = GameObject.Find("unusedPartsPanel");
         partPanel = GameObject.Find("partsBackdrop");
         partPanel.SetActive(false);
-        locks = GameObject.FindGameObjectsWithTag("partLock");
     }
 
     int lastChildCount = 0;
@@ -26,14 +25,16 @@ public class partChange : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Tab))
         {
-            partPanel.SetActive(!partPanel.activeSelf);
-            if (!partPanel.activeSelf)
+           
+            if (partPanel.activeSelf)
             {
+                locks = GameObject.FindGameObjectsWithTag("partLock");
                 foreach (GameObject Lock in locks)
                     lockedParts.Add(Lock.transform.GetChild(0).gameObject);
-
-                GetComponent<Pmovement>().change(lockedParts);
             }
+                
+
+            partPanel.SetActive(!partPanel.activeSelf);
         }
             
 

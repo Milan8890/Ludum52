@@ -38,15 +38,16 @@ public class playerM2 : MonoBehaviour
     IEnumerator Dash()
     {
         float dashDuration = 0.2f;
-        int dashVelocity = 10;
+        int dashVelocity = 1;
         canM2= false;
+        Vector2 dir;
+
+        dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - player.transform.position;
 
         GroundChecker.GetComponent<Pmovement>().canMove = false;
         player.GetComponent<Rigidbody2D>().gravityScale = 0;
-        if(GroundChecker.GetComponent<Pmovement>().IsFacingRight)
-            player.GetComponent<Rigidbody2D>().velocity=new Vector2(dashVelocity, 0);
-        else
-            player.GetComponent<Rigidbody2D>().velocity = new Vector2(dashVelocity*-1, 0);
+
+        player.GetComponent<Rigidbody2D>().AddForce(dashVelocity * dir, ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(dashDuration);
 
@@ -56,5 +57,6 @@ public class playerM2 : MonoBehaviour
         yield return new WaitForSeconds(cooldown);
         canM2 = true;
 
+        //player.GetComponent<Rigidbody2D>().velocity = new Vector2(dashVelocity*-1, 0);
     }
 }
