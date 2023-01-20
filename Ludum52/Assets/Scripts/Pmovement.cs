@@ -4,48 +4,48 @@ using UnityEngine;
 
 public class Pmovement : MonoBehaviour
 {
-    public float Speed = 0.1f;
-    public float JumpPower = 7f;
-    public float airSpeed = 1f;
+    public float Speed = 0.15f;
+    public float JumpPower = 13f;
 
     public float maxHp = 0;
     public float hp = 0;
 
     public bool IsGrounded = true;
     public bool IsFacingRight = true;
+    public bool canMove = true;
 
-    public Transform GroundCheck;
-
-    float horMove = 0f;
+    public GameObject player;
+    public float horMove = 0f;
+    
     Rigidbody2D rb;
 
     public List<GameObject> limbs;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        player = GameObject.Find("player");
+        rb = player.GetComponent<Rigidbody2D>();
 
-        for(int i = 0; i < transform.Find("LIMBS").childCount; i++)
-            limbs.Add(transform.Find("LIMBS").GetChild(i).gameObject);
+        for(int i = 0; i < player.transform.Find("LIMBS").childCount; i++)
+            limbs.Add(player.transform.Find("LIMBS").GetChild(i).gameObject);
     }
 
     void Update()
     {
-        if (IsGrounded)
-            airSpeed = 1f;
-        else
-            airSpeed = 0.8f;
-
-        horMove = Input.GetAxis("Horizontal") * Speed * airSpeed;
-        //horMove = Input.GetAxisRaw("Horizontal") * Speed * airSpeed; nem tudom eldönteni melyik a jobb
-        
-
-        if (Input.GetKey(KeyCode.Space) && IsGrounded)
+        if (canMove)
         {
-            IsGrounded = false;
-            rb.AddForce(Vector2.up * JumpPower, ForceMode2D.Impulse);
+
+
+            horMove = Input.GetAxis("Horizontal") * Speed;
+            //horMove = Input.GetAxisRaw("Horizontal") * Speed * airSpeed; nem tudom eldönteni melyik a jobb
+
+
+            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
+            {
+                IsGrounded = false;
+                rb.velocity=Vector2.up * JumpPower;
+            }
         }
-            
     }
 
     private void FixedUpdate()
@@ -57,16 +57,16 @@ public class Pmovement : MonoBehaviour
             IsFacingRight = !IsFacingRight;
 
 
-        transform.Translate(horMove * Vector2.right);
+        player.transform.Translate(horMove * Vector2.right);
     }
-
-    private void OnCollisionEnter2D(Collision2D col)
+    
+    private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.tag == "Ground")
             IsGrounded = true;
     }
 
-    private void OnCollisionExit2D(Collision2D col)
+    private void OnTriggerExit2D(Collider2D col)
     {
         if (col.gameObject.tag == "Ground")
             IsGrounded = false;
