@@ -38,7 +38,7 @@ public class playerM2 : MonoBehaviour
     IEnumerator Dash()
     {
         float dashDuration = 0.2f;
-        int dashVelocity = 1;
+        int dashVelocity = 2;
         canM2= false;
         Vector2 dir;
 
@@ -46,13 +46,14 @@ public class playerM2 : MonoBehaviour
 
         GroundChecker.GetComponent<Pmovement>().canMove = false;
         player.GetComponent<Rigidbody2D>().gravityScale = 0;
+        player.GetComponent<Rigidbody2D>().velocity = new Vector2(0,0);
 
         player.GetComponent<Rigidbody2D>().AddForce(dashVelocity * dir, ForceMode2D.Impulse);
 
         yield return new WaitForSeconds(dashDuration);
 
         player.GetComponent<Rigidbody2D>().velocity = player.GetComponent<Rigidbody2D>().velocity/2;
-        GroundChecker.GetComponent<Pmovement>().canMove=true;
+        GroundChecker.GetComponent<Pmovement>().canMove = true;
         player.GetComponent<Rigidbody2D>().gravityScale = 1;
         yield return new WaitForSeconds(cooldown);
         canM2 = true;

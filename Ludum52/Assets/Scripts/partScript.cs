@@ -8,7 +8,7 @@ using static UnityEngine.GraphicsBuffer;
 [System.Serializable]  
 public class part
 {
-    // 1=head, 2=body, 3=arm, 4=utilarm, 5=leg
+    // 1=head, 2=body, 3=Larm, 4=Rarm, 5=leg
     public int type;
     public int typeSquared; // nem jó név de a type-on belüli type pl lánctalp vagy sima láb
 
@@ -18,24 +18,30 @@ public class part
     public float condition;
 
     //head/body
-    public float hp;
+    public int hp;
     public float weight;
+    public float maxAmmo; // csak body
+    public float reloadSpeed; // csak head
 
     //arm
     public bool melee;
-    public float damage;
+    public int damage;
+    public float attackDelay;
     //melle
     public float reach;
+    public float attackDuration;
     //ranged
     public float fireRate;
-    Sprite bulettSprite;
     public float range;
     public float spread;
+    public float reloadTime;
+    public int magazineSize;
 
 
     //leg
     public bool stopIm;
     public float speed;
+    public float jumppower;
 }
 
 public class partScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler

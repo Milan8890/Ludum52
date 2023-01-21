@@ -3,33 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerAttack : MonoBehaviour
+public class arm
 {
+    public int maxammo = 30;
+    public int ammo = 0;
     public int weaponType = 2;
-    private int maxammo = 30;
-    private int ammo = 0;
-    private int reloadSpeed = 2;
-    private bool attacking = false;
-    private bool canAttack = true;
-    private float attackDelay = 0.5f;
-    private float attackDuration = 0.5f;
-    public float range = 0.5f; //ezt elvileg megkapjuk a partScriptbõl,de nemtom hogy hogyan.
-    private float maxrange = 0.5f;
-    private float angle;
+    public float reloadSpeed = 2;
+
+    public float attackDelay = 0.5f;
+    public float attackDuration = 0.5f;
+
+    public float range = 0.5f;
+    
     public float damageCollDistance = 0.34f;
     public bool melee = true;
-    [SerializeField] int damage = 50;
+    public int damage = 50;
+
+    public bool attacking = false;
+    public bool canAttack = true;
+}
+
+public class PlayerAttack : MonoBehaviour
+{
+    public arm Larm;
+    public arm Rarm;
+
     public GameObject player;
-    public GameObject bullet;
+    public GameObject[] bullet;
     public Transform barrelEnd;
 
+    public int maxHp = 100;
+    public float Hp = 100f;
+
     public Image damageCooldownUI;
-    private void Start()
-    {
-        ammo = maxammo;
-        //fix?
-        //GetComponent<BoxCollider2D>().offset = new Vector2(damageCollDistance, 0);
-    }
+
+    public float angle;
     void Update()
     {
         Vector3 mousePos = Input.mousePosition;
@@ -40,63 +48,87 @@ public class PlayerAttack : MonoBehaviour
         mousePos.y = mousePos.y - objectPos.y;
 
         angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
+
         transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
 
-        if (Input.GetKey(KeyCode.R) && ammo!=maxammo)
-        {
-            StartCoroutine(Reload());
-        }
-        if (Input.GetKey(KeyCode.Mouse0) && canAttack && ammo!=0)
-        {
-            canAttack = false;
 
-            if (melee)
-                StartCoroutine(Mattack());
+        if (Input.GetKey(KeyCode.R) && Larm.ammo!=Larm.maxammo && Rarm.ammo != Rarm.maxammo)
+            StartCoroutine(Reload());
+
+
+        if (Input.GetKey(KeyCode.Mouse0) && Larm.canAttack && Larm.ammo!=0)
+        {
+            Larm.canAttack = false;
+
+            if (Larm.melee)
+                StartCoroutine(LMattack());
             else
             {
-                StartCoroutine(Rattack());
+                StartCoroutine(LRattack());
+            }
+        }
+
+        if (Input.GetKey(KeyCode.Mouse1) && Rarm.canAttack && Rarm.ammo != 0)
+        {
+            Rarm.canAttack = false;
+
+            if (Rarm.melee)
+                StartCoroutine(RMattack());
+            else
+            {
+                StartCoroutine(RRattack());
             }
         }
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (attacking && melee)
+        if (Larm.attacking && Larm.melee)
         {
             if (collision.gameObject.tag=="Enemy")
             {
-                collision.GetComponent<Enemy>().getDamage(damage);
+                collision.GetComponent<Enemy>().getDamage(Larm.damage);
                 collision.GetComponent<Enemy>().applyKnockback(transform.rotation);
             }
 
-            attacking = false;
+            Larm.attacking = false;
+        }
+
+        if (Rarm.attacking && Rarm.melee)
+        {
+            if (collision.gameObject.tag == "Enemy")
+            {
+                collision.GetComponent<Enemy>().getDamage(Rarm.damage);
+                collision.GetComponent<Enemy>().applyKnockback(transform.rotation);
+            }
+
+            Rarm.attacking = false;
         }
     }
-    IEnumerator Mattack()
+    IEnumerator LMattack()
     {
         damageCooldownUI.color = new Color(1, 0, 0);
 
-        attacking = true;
+        Larm.attacking = true;
 
-        yield return new WaitForSeconds(attackDuration);
-        attacking = false;
+        yield return new WaitForSeconds(Larm.attackDuration);
+        Larm.attacking = false;
 
-        yield return new WaitForSeconds(attackDelay);
-        
-        canAttack = true;
+        yield return new WaitForSeconds(Larm.attackDelay);
+
+        Larm.canAttack = true;
         damageCooldownUI.color = new Color(0, 1, 0);
     }
-    IEnumerator Rattack()
+    IEnumerator LRattack()
     {
         
         damageCooldownUI.color = new Color(1, 0, 0);
-        switch(//ide kéne a fegyver typeja, csak nemtom honnan lehet elérni
-               weaponType)
+        switch(Larm.weaponType)
         {
             case 1:
                 //pistol/sniper
-                Instantiate(bullet, barrelEnd.position, barrelEnd.rotation);
-                ammo--;
+                Instantiate(bullet[Larm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                Larm.ammo--;
                 break;
             case 2:
                 //shotgun
@@ -108,11 +140,11 @@ public class PlayerAttack : MonoBehaviour
                     barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle + Random.Range(-pelletSway / 2, pelletSway / 2)));
                     
 
-                    Instantiate(bullet, barrelEnd.position, barrelEnd.rotation);
+                    Instantiate(bullet[Larm.weaponType], barrelEnd.position, barrelEnd.rotation);
                     //Debug.Log(range);
                 }
                 barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-                ammo--;
+                Larm.ammo--;
                 break;
             case 3:
                 //burst rifle
@@ -121,29 +153,100 @@ public class PlayerAttack : MonoBehaviour
                     float accuracy = 5f;
                     barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle + Random.Range(-accuracy / 2, accuracy / 2)));
 
-                    Instantiate(bullet, barrelEnd.position, barrelEnd.rotation);
-                    yield return new WaitForSeconds(attackDuration / 10);
+                    Instantiate(bullet[Larm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                    yield return new WaitForSeconds(Larm.attackDuration / 10);
                 }
                 barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
-                ammo -= 3;
+                Larm.ammo -= 3;
                 break;
         }
 
         
 
-        yield return new WaitForSeconds(attackDelay);
+        yield return new WaitForSeconds(Larm.attackDelay);
 
-        canAttack = true;
-        if(ammo!=0)
+        Larm.canAttack = true;
+        if(Larm.ammo !=0)
             damageCooldownUI.color = new Color(0, 1, 0);
     }
+
+    IEnumerator RMattack()
+    {
+        damageCooldownUI.color = new Color(1, 0, 0);
+
+        Rarm.attacking = true;
+
+        yield return new WaitForSeconds(Rarm.attackDuration);
+        Rarm.attacking = false;
+
+        yield return new WaitForSeconds(Rarm.attackDelay);
+
+        Rarm.canAttack = true;
+        damageCooldownUI.color = new Color(0, 1, 0);
+    }
+    IEnumerator RRattack()
+    {
+
+        damageCooldownUI.color = new Color(1, 0, 0);
+        switch (Rarm.weaponType)
+        {
+            case 1:
+                //pistol/sniper
+                Instantiate(bullet[Rarm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                Rarm.ammo--;
+                break;
+            case 2:
+                //shotgun
+                int pelletCount = 10;
+                float pelletSway = 35f;
+                for (int i = 0; i < pelletCount; i++)
+                {
+
+                    barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle + Random.Range(-pelletSway / 2, pelletSway / 2)));
+
+                    Instantiate(bullet[Rarm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                    //Debug.Log(range);
+                }
+                barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+                Rarm.ammo--;
+                break;
+            case 3:
+                //burst rifle
+                for (int i = 0; i < 3; i++)
+                {
+                    float accuracy = 5f;
+                    barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle + Random.Range(-accuracy / 2, accuracy / 2)));
+
+                    Instantiate(bullet[Rarm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                    yield return new WaitForSeconds(Rarm.attackDuration / 10);
+                }
+                barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+                Rarm.ammo -= 3;
+                break;
+        }
+
+
+
+        yield return new WaitForSeconds(Rarm.attackDelay);
+
+        Rarm.canAttack = true;
+        if (Rarm.ammo != 0)
+            damageCooldownUI.color = new Color(0, 1, 0);
+    }
+
     IEnumerator Reload()
     {
-        canAttack = false;
+        Larm.canAttack = false;
+        Rarm.canAttack = false;
         damageCooldownUI.color = new Color(1, 0, 0);
-        ammo = maxammo;
-        yield return new WaitForSeconds(reloadSpeed);
-        canAttack = true;
+        Larm.ammo = Larm.maxammo;
+        Rarm.ammo = Rarm.maxammo;
+
+
+        yield return new WaitForSeconds(Rarm.reloadSpeed + Larm.reloadSpeed);
+
+        Larm.canAttack = true;
+        Rarm.canAttack = true;
         damageCooldownUI.color = new Color(0, 1, 0);
     }
 }

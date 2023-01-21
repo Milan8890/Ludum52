@@ -31,13 +31,9 @@ public class Pmovement : MonoBehaviour
     {
         if (canMove)
         {
-
-
             horMove = Input.GetAxis("Horizontal") * Speed;
-            //horMove = Input.GetAxisRaw("Horizontal") * Speed * airSpeed; nem tudom eldönteni melyik a jobb
 
-
-            if (Input.GetKeyDown(KeyCode.Space) && IsGrounded)
+            if (Input.GetKey(KeyCode.Space) && IsGrounded)
             {
                 IsGrounded = false;
                 rb.velocity=Vector2.up * JumpPower;
