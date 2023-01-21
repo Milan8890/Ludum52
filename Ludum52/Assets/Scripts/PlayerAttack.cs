@@ -2,22 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
-public class arm
+[System.Serializable]
+public class Arm
 {
-    public int maxammo = 30;
-    public int ammo = 0;
-    public int weaponType = 2;
-    public float reloadSpeed = 2;
+    public int maxammo;
+    public int ammo;
+    public int weaponType;
+    public float reloadSpeed;
 
-    public float attackDelay = 0.5f;
-    public float attackDuration = 0.5f;
+    public float attackDelay;
+    public float attackDuration;
 
-    public float range = 0.5f;
+    public float range;
     
-    public float damageCollDistance = 0.34f;
-    public bool melee = true;
-    public int damage = 50;
+    public float damageCollDistance;
+    public bool melee ;
+    public int damage;
 
     public bool attacking = false;
     public bool canAttack = true;
@@ -25,8 +25,8 @@ public class arm
 
 public class PlayerAttack : MonoBehaviour
 {
-    public arm Larm;
-    public arm Rarm;
+    public Arm Larm;
+    public Arm Rarm;
 
     public GameObject player;
     public GameObject[] bullet;
@@ -38,6 +38,14 @@ public class PlayerAttack : MonoBehaviour
     public Image damageCooldownUI;
 
     public float angle;
+
+    public GameObject L;
+    public GameObject R;
+
+    private void Start()
+    {
+
+    }
     void Update()
     {
         Vector3 mousePos = Input.mousePosition;
@@ -58,6 +66,7 @@ public class PlayerAttack : MonoBehaviour
 
         if (Input.GetKey(KeyCode.Mouse0) && Larm.canAttack && Larm.ammo!=0)
         {
+
             Larm.canAttack = false;
 
             if (Larm.melee)
@@ -121,39 +130,50 @@ public class PlayerAttack : MonoBehaviour
     }
     IEnumerator LRattack()
     {
-        
         damageCooldownUI.color = new Color(1, 0, 0);
         switch(Larm.weaponType)
         {
             case 1:
                 //pistol/sniper
-                Instantiate(bullet[Larm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                
+                L = Instantiate(bullet[Larm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                L.GetComponent<playerBullet>().bulletLife = Larm.range / L.GetComponent<playerBullet>().speed;
+                L.GetComponent<playerBullet>().damage = Larm.damage;
                 Larm.ammo--;
                 break;
             case 2:
                 //shotgun
                 int pelletCount=10;
                 float pelletSway=35f;
+                
                 for (int i=0; i<pelletCount; i++)
                 {
 
                     barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle + Random.Range(-pelletSway / 2, pelletSway / 2)));
                     
 
-                    Instantiate(bullet[Larm.weaponType], barrelEnd.position, barrelEnd.rotation);
-                    //Debug.Log(range);
+                    L=Instantiate(bullet[Larm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                    L.GetComponent<playerBullet>().bulletLife = Random.Range(0, Larm.range) / L.GetComponent<playerBullet>().speed;
+                    L.GetComponent<playerBullet>().damage = Larm.damage/pelletCount;
+
+
                 }
+
                 barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
                 Larm.ammo--;
                 break;
             case 3:
                 //burst rifle
+                
                 for (int i = 0; i < 3; i++)
                 {
                     float accuracy = 5f;
                     barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle + Random.Range(-accuracy / 2, accuracy / 2)));
 
-                    Instantiate(bullet[Larm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                    L =Instantiate(bullet[Larm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                    L.GetComponent<playerBullet>().bulletLife =Larm.range / L.GetComponent<playerBullet>().speed;
+                    L.GetComponent<playerBullet>().damage = Larm.damage;
+
                     yield return new WaitForSeconds(Larm.attackDuration / 10);
                 }
                 barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
@@ -192,7 +212,10 @@ public class PlayerAttack : MonoBehaviour
         {
             case 1:
                 //pistol/sniper
-                Instantiate(bullet[Rarm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                R=Instantiate(bullet[Rarm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                R.GetComponent<playerBullet>().bulletLife =  Rarm.range / R.GetComponent<playerBullet>().speed;
+                R.GetComponent<playerBullet>().damage = Rarm.damage;
+
                 Rarm.ammo--;
                 break;
             case 2:
@@ -204,7 +227,9 @@ public class PlayerAttack : MonoBehaviour
 
                     barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle + Random.Range(-pelletSway / 2, pelletSway / 2)));
 
-                    Instantiate(bullet[Rarm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                    R=Instantiate(bullet[Rarm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                    R.GetComponent<playerBullet>().bulletLife = Random.Range(0, Rarm.range) / R.GetComponent<playerBullet>().speed;
+                    R.GetComponent<playerBullet>().damage = Rarm.damage / pelletCount;
                     //Debug.Log(range);
                 }
                 barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
@@ -217,7 +242,10 @@ public class PlayerAttack : MonoBehaviour
                     float accuracy = 5f;
                     barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle + Random.Range(-accuracy / 2, accuracy / 2)));
 
-                    Instantiate(bullet[Rarm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                    R=Instantiate(bullet[Rarm.weaponType], barrelEnd.position, barrelEnd.rotation);
+                    R.GetComponent<playerBullet>().bulletLife =Rarm.range / R.GetComponent<playerBullet>().speed;
+                    R.GetComponent<playerBullet>().damage = Rarm.damage;
+
                     yield return new WaitForSeconds(Rarm.attackDuration / 10);
                 }
                 barrelEnd.rotation = Quaternion.Euler(new Vector3(0, 0, angle));

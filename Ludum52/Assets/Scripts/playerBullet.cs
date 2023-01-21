@@ -4,19 +4,17 @@ using UnityEngine;
 
 public class playerBullet : MonoBehaviour
 {
-    public float speed = 1f;
-    private float bulletLife = 0f;
+    public float speed = 5f;
+    public float bulletLife = 0f;
     public int damage = 20;
 
     public GameObject player;
+    public GameObject bullet;
 
     private void Start()
     {
-        //player = GameObject.Find("player");
-        //if(GameObject.Find("Attackcollider").GetComponent<PlayerAttack>().weaponType==2)
-        //    bulletLife = Random.Range(GameObject.Find("Attackcollider").GetComponent<PlayerAttack>().range / 2, GameObject.Find("Attackcollider").GetComponent<PlayerAttack>().range) / speed;
-        //else
-        //    bulletLife = GameObject.Find("Attackcollider").GetComponent<PlayerAttack>().range / speed;
+        player = GameObject.Find("player");
+       
         //Debug.Log(bulletLife);
     }
 

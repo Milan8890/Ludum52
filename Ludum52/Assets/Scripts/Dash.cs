@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class playerM2 : MonoBehaviour
+public class Dash : MonoBehaviour
 {
     private int utilityType = 1;
     private float cooldown = 2f;
@@ -19,12 +19,12 @@ public class playerM2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Mouse1) && canM2)
+        if(Input.GetKeyDown(KeyCode.LeftShift) && canM2)
         {
             switch(utilityType)
             {
                 case 1:
-                    StartCoroutine(Dash());
+                    StartCoroutine(Desh());
                     break;
                 case 2:
                     //StartCoroutine(Shield());
@@ -35,7 +35,7 @@ public class playerM2 : MonoBehaviour
             }
         }
     }
-    IEnumerator Dash()
+    IEnumerator Desh()
     {
         float dashDuration = 0.2f;
         int dashVelocity = 2;

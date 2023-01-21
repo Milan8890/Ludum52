@@ -16,6 +16,11 @@ public class partChange : MonoBehaviour
     private void Start()
     { 
         partPanel.SetActive(false);
+        foreach (GameObject Lock in locks)
+            if (Lock.transform.childCount != 0)
+                lockedParts.Add(Lock.transform.GetChild(0).gameObject);
+        change();
+
     }
 
     int lastChildCount = 0;
